@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "console-todo-manager": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
