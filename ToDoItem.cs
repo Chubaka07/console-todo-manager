@@ -19,7 +19,7 @@ namespace console_todo_manager
         Random random = new Random();
         public ToDoItem(string task)
         {
-            Id = random.Next(0, 1000000);
+            Id = random.Next(1000, 10000);
             Task = task;
             IsDone = false;
             CreatedDate = DateTime.Now;
