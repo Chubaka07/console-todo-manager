@@ -1,13 +1,40 @@
 ﻿using System.Globalization;
+using System.Text.Json;
 
 namespace console_todo_manager
 {
     internal class Program
     {
+
         public static List<ToDoItem> todos = new List<ToDoItem>();
+        
+
+        // Загрузка задач при запуске приложения
+        private static List<ToDoItem> LoadTodos()
+        {
+            if(FileService.IsFileExists())
+            {
+                todos = FileService.LoadTodosFromFile();
+                return todos;
+            }
+            else
+                return new List<ToDoItem>();
+        }
+
+
+        // Сохранение задач
+        private static void SaveTodos()
+        {
+            FileService.SaveTodosToFile(todos);
+        }
+
 
         static void Main(string[] args)
         {
+            
+            todos = LoadTodos();
+
+
             string[] menuItems =
             {
                 "Показать все задачи",
@@ -60,16 +87,21 @@ namespace console_todo_manager
 
         }
 
+        
 
         // Метод для добавления новой задачи
         private static void AddNewTask()
         {
             Console.Clear();
-            Console.WriteLine("Добавление новой задачи");
-            Console.WriteLine("=======================");
-            Console.Write("Введите задачу: ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("|| Добавление новой задачи ||");
+            Console.ResetColor();
+            Console.Write("Введите задачу или '0' для выхода в меню: ");
+
             string taskText = Console.ReadLine();
 
+            if (taskText == "0")
+                return;
             if (!string.IsNullOrWhiteSpace(taskText))
             {
                 ToDoItem newTask = new ToDoItem(taskText);
@@ -83,15 +115,17 @@ namespace console_todo_manager
 
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
             Console.ReadKey();
+            SaveTodos();
         }
 
         // Метод для показа всех задач
         private static void ShowAllTasks()
         {
             Console.Clear();
-            Console.WriteLine("Список всех задач");
-            Console.WriteLine("=================");
-
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("|| Список всех задач ||");
+            Console.ResetColor();
+            Console.WriteLine();
             if (todos.Count == 0)
                 Console.WriteLine("Задачи отсутствуют.");
             else
@@ -133,12 +167,14 @@ namespace console_todo_manager
         private static void ChangeStatusOfTask()
         {
             Console.Clear();
-            Console.WriteLine("Изменение статуса задачи\n");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("|| Изменение статуса задачи ||\n");
+            Console.ResetColor();
 
             if (todos.Count == 0)
             {
                 Console.WriteLine("Задачи отсутствуют.");
-                Console.WriteLine("Нажмите любую клавишу для возврата в меню");
+                Console.WriteLine("Нажмите любую клавишу для возврата в меню...");
                 Console.ReadKey();
                 return;
             }
@@ -150,8 +186,7 @@ namespace console_todo_manager
             
             while (true)
             {
-                Console.WriteLine("\nВыберите и напишите ID задачи, которой хотите изменить статус на 'Выполнено'");
-                Console.WriteLine("Или введите '0' для выхода в меню");
+                Console.WriteLine("\nВведите ID задачи, статус которой хотите поменять или '0' для выхода в меню...");
 
                 string input = Console.ReadLine();
 
@@ -210,6 +245,7 @@ namespace console_todo_manager
 
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню");
             Console.ReadKey();
+            SaveTodos();
         }
 
 
@@ -300,6 +336,7 @@ namespace console_todo_manager
 
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
             Console.ReadKey();
+            SaveTodos();
         }
     }
 }
