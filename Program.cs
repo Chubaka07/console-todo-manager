@@ -7,12 +7,12 @@ namespace console_todo_manager
     {
 
         public static List<ToDoItem> todos = new List<ToDoItem>();
-        
+
 
         // Загрузка задач при запуске приложения
         private static List<ToDoItem> LoadTodos()
         {
-            if(FileService.IsFileExists())
+            if (FileService.IsFileExists())
             {
                 todos = FileService.LoadTodosFromFile();
                 return todos;
@@ -31,7 +31,7 @@ namespace console_todo_manager
 
         static void Main(string[] args)
         {
-            
+
             todos = LoadTodos();
 
 
@@ -75,7 +75,7 @@ namespace console_todo_manager
                             case 2:
                                 ChangeStatusOfTask();
                                 break;
-                            case 3: 
+                            case 3:
                                 DeleteTask();
                                 break;
                             case 4:
@@ -87,7 +87,7 @@ namespace console_todo_manager
 
         }
 
-        
+
 
         // Метод для добавления новой задачи
         private static void AddNewTask()
@@ -183,7 +183,7 @@ namespace console_todo_manager
 
             int taskId = -1;
 
-            
+
             while (true)
             {
                 Console.WriteLine("\nВведите ID задачи, статус которой хотите поменять или '0' для выхода в меню...");
@@ -194,16 +194,16 @@ namespace console_todo_manager
                 if (input == "0")
                     return;
 
-                if (!int.TryParse(input, out taskId)) 
+                if (!int.TryParse(input, out taskId))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ошибка: введите корректное значение ID!");
                     Console.ForegroundColor = ConsoleColor.White;
                     continue;
                 }
-                else 
+                else
                     break; // Выходим из цикла, если ввод корректен
-                
+
             }
 
 
@@ -253,7 +253,7 @@ namespace console_todo_manager
         // Метод для рисовки меню
         private static void DrawMenu(string[] items, int row, int col, int index)
         {
-            
+
             Console.SetCursorPosition(col, row);
             for (int i = 0; i < items.Length; i++)
             {
@@ -310,7 +310,7 @@ namespace console_todo_manager
 
             bool f = false;
             string deletedTaskText = "";
-            for(int i = 0; i < todos.Count; i++)
+            for (int i = 0; i < todos.Count; i++)
             {
                 if (todos[i].Id == taskId)
                 {
